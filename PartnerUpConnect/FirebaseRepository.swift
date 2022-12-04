@@ -6,8 +6,8 @@
 //
 import Foundation
 import FirebaseFirestore
-import FirebaseAuth
 import FirebaseStorage
+//import FirebaseAuth
 
 class FirestoreRepository {
     
@@ -47,7 +47,6 @@ class FirestoreRepository {
             }
         }
     }
-    
     
     // Add contact to database
     func addContact(contact: Contact) -> Bool{

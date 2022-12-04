@@ -8,8 +8,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-
-// Contact class which is where all the player are declared
+//Contact class which is where all the player are declared
 public class Contact : Codable{
     
     @DocumentID var id : String?
@@ -49,5 +48,4 @@ public class Contact : Codable{
         self.init(firstname: "", lastname: "", email: "", phone: "", photo: "", location:"", gender: "", dob:"", level:"", favorite: true)
         self.id = documentId
     }
-  
 }

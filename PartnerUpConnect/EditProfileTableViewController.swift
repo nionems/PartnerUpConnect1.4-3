@@ -35,9 +35,20 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
     
     
     override func viewDidLoad() {
-        
-        
         super.viewDidLoad()
+        
+        
+        firstnameProfile.text = "\(myProfileContact.firstname)"
+        lastnameProfile.text = "\(myProfileContact.lastname)"
+        locationProfile.text = "\(myProfileContact.location)"
+        levelProfile.text = "\(myProfileContact.level)"
+        dobProfile.text = "\(myProfileContact.dob)"
+        genderProfile.text = "\(myProfileContact.gender)"
+        emailProfile.text = "\(myProfileContact.email)"
+        phoneProfile.text = "\(myProfileContact.phone)"
+        photoProfile.text = "\(myProfileContact.photo)"
+        //imageView.image = UIImage(named:myProfileContact.photo)
+        //playerImageView.image = UIImage(named:contact.photo)
         
         //need to vreate login function first
         
@@ -45,26 +56,26 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         configurePicker()
     }
     
-    @IBAction func EditProfile(_ sender: Any) {
-        
-        var contact = Contact (firstname:self.firstnameProfile.text!
-                               ,lastname: self.lastnameProfile.text!
-                               ,email:self.emailProfile.text!
-                               ,phone:self.phoneProfile.text!
-                               ,photo:self.photoProfile.text!
-                               ,location:self.locationProfile.text!
-                               ,gender:self.genderProfile.text!
-                               ,dob:self.dobProfile.text!
-                               ,level:self.levelProfile.text!
-                               ,favorite:false)
-        
-        if service.addContact(contact: contact){
-            
-            showAlertMessage(title:"Success",message: "\(contact.firstname)\(contact.lastname) was edited")
-        }
-        else{
-            showAlertMessage(title:"No luck",message: "couldnt register")}
-    }
+//    @IBAction func EditProfile(_ sender: Any) {
+//
+//        var contact = Contact (firstname:self.firstnameProfile.text!
+//                               ,lastname: self.lastnameProfile.text!
+//                               ,email:self.emailProfile.text!
+//                               ,phone:self.phoneProfile.text!
+//                               ,photo:self.photoProfile.text!
+//                               ,location:self.locationProfile.text!
+//                               ,gender:self.genderProfile.text!
+//                               ,dob:self.dobProfile.text!
+//                               ,level:self.levelProfile.text!
+//                               ,favorite:false)
+//
+//        if service.addContact(contact: contact){
+//
+//            showAlertMessage(title:"Success",message: "\(contact.firstname)\(contact.lastname) was edited")
+//        }
+//        else{
+//            showAlertMessage(title:"No luck",message: "couldnt register")}
+//    }
     func configurePicker() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -124,10 +135,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         return self.downloadUrl
         
     }
-    @IBAction func changeImageDidPress(_ sender : Any){
-
-    }
-    
+   
     //To delete profile
     @IBAction func deleteProfile(_ sender: Any) {
         
@@ -144,10 +152,7 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         else{
             showAlertMessage(title: "Failed", message: "couldnt delete contact ")
         }
-        
     }
-    
-    
     func showAlertMessage(title:String, message:String){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -157,47 +162,31 @@ class EditProfileTableViewController: UITableViewController, UIImagePickerContro
         
     }
    
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //        // Get the new view controller using segue.destination.
-        //        // Pass the selected object to the new view controller.
-        
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
         // if is destination screen = as arrival
-        if let contactTableVC = segue.destination as? ContactsTableViewController{
+        
+        if let contactTableViewController = segue.destination as? ContactsTableViewController{
             
-            contact.email = emailProfile.text!
-           // contact.photo = photoProfile.text!
-            contact.level = levelProfile.text!
-            contact.location = locationProfile.text!
-            contact.lastname = lastnameProfile.text!
-            contact.firstname = firstnameProfile.text!
-            contact.gender = genderProfile.text!
-            contact.dob = dobProfile.text!
+            myProfileContact.email = emailProfile.text!
+            myProfileContact.photo = photoProfile.text!
+            myProfileContact.level = levelProfile.text!
+            myProfileContact.location = locationProfile.text!
+            myProfileContact.lastname = lastnameProfile.text!
+            myProfileContact.firstname = firstnameProfile.text!
+            myProfileContact.gender = genderProfile.text!
+            myProfileContact.dob = dobProfile.text!
             //save the photo to firebase storage
             //contact.photo = saveContactImage()
-            contact.lastUpdatedAt = nil
-            contact.photo = self.downloadUrl
+            myProfileContact.lastUpdatedAt = nil
+            myProfileContact.photo = self.downloadUrl
+            //imageView.image = UIImage(named:myProfileContact.photo)
+            myProfileContact.photo = photoProfile.text!
             
-            contactTableVC.myProfileContact = contact
-        
-            
+            contactTableViewController.myProfileContact = myProfileContact
         }
-        
-
-//                contact.favorite = favoriteSwitch.isOn
-//                contactsTableVC.selectedContact = contact
-//
-//            }
-//
-//        if let editTableVC = segue.destination as? MyProfileTableViewController{
-//            service.addContact(contact: contact)
-//
-//        }
-        
     }
-//    @IBAction func actionForUnwindButton(sender: AnyObject) {
-//        println("actionForUnwindButton");
-//    }
 }
         
     

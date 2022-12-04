@@ -7,25 +7,9 @@
 import UIKit
 import Firebase
 
-class ContactsTableViewController: UITableViewController {
-    
-    @IBOutlet var contactTableView: UITableView!
-    
-    //Logout button function
-    @IBAction func logOutBtn(_ sender: Any) {
-        
-        let refreshAlert = UIAlertController(title: "Login Out", message: "Are you sure you want to logout", preferredStyle: UIAlertController.Style.alert)
-        // will close the application
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            exit(0);
-        }))
-        // will not close the application and get back to the app
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-              print("Handle Cancel Logic here")
-        }))
+class ContactsTableViewController: UITableViewController{
 
-        present(refreshAlert, animated: true, completion: nil)
-    }
+    @IBOutlet var contactTableView: UITableView!
     
     let service = FirestoreRepository()
     var contacts = [Contact]()
@@ -35,55 +19,36 @@ class ContactsTableViewController: UITableViewController {
     var levelQuery : String = ""
     var locationQuery : String = ""
     var genderQuery : String = ""
+    var profile : Contact!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //   findContactById(id: documentId : "EGk4FqmCecaKMEtV5mmE", onCompletion:)
-        //  _ = service.db.collection("contacts").whereField("favorite", isEqualTo: true).
-        
-        if(searchFrom == "searchByLevel"){
-            print("view DidLoad open search by level ")
-            
-            _ = service.db.collection("contacts").whereField("favorite", isEqualTo: true).addSnapshotListener { querySnapshot,error in
-                guard let documents = querySnapshot?.documents else{
-                    print ("Error fetching documents \(error!)")
-                    return
-                }
-                self.contacts = documents.compactMap({ queryDocumentSnapshot -> Contact? in
-                    return try? queryDocumentSnapshot.data(as: Contact.self)
-                })
-                for con in self.contacts{
-                    print(con.lastname)
-                }
-                self.contactTableView.reloadData()
-             
+        // retrieving my profile from the database via ID since LOGIN isn't implemented!
+        service.findContactById(id: "EGk4FqmCecaKMEtV5mmE") { retContact in
+            if let retContact = retContact{
+                self.profile = retContact
+                print("contact returned \(self.profile.email)")
                 
-            }
-            
-        }else if (searchFrom == ""){
-            
-        
-            //let docRef
-            _ = service.db.collection("contacts").addSnapshotListener { querySnapshot,error in
-                guard let documents = querySnapshot?.documents else{
-                    print ("Error fetching documents \(error!)")
-                    return
-                }
-                self.contacts = documents.compactMap({ queryDocumentSnapshot -> Contact? in
-                    return try? queryDocumentSnapshot.data(as: Contact.self)
-                })
-                for con in self.contacts{
-                    print(con.lastname)
-                }
-                self.contactTableView.reloadData()
+            }else{
+                print("Unable to retrieve the contact")
             }
         }
-      else if (searchFrom == "searchByGender"){
-          print("view DidLoad open search by Gender  ")
+        // variable "Query" declared.
+        //the view did load will load the player in accordance to the search method!
+        var query : Query!
+        if searchFrom == ""{
+            query = service.db.collection("contacts")
+        }else if self.searchFrom == "searchByLevel" {
+            query = service.db.collection("contacts").whereField("level", isEqualTo: self.levelQuery)
+        }else if searchFrom == "searchByGender" {
+            query = service.db.collection("contacts").whereField("gender", isEqualTo:self.genderQuery)
+        }else if searchFrom == "searchByLocation"{
+            query = service.db.collection("contacts").whereField("location", isEqualTo:self.locationQuery)
+        }
     
-        //let docRef fro Male Gender
-          _ = service.db.collection("contacts").whereField("gender", isEqualTo:"male").addSnapshotListener { querySnapshot,error in
+        // reload all contact to the page
+        query.addSnapshotListener { querySnapshot,error in
             guard let documents = querySnapshot?.documents else{
                 print ("Error fetching documents \(error!)")
                 return
@@ -96,27 +61,6 @@ class ContactsTableViewController: UITableViewController {
             }
             self.contactTableView.reloadData()
         }
-    }
-        //result of female player
-        else if (searchFrom == "searchByGender"){
-            print("view DidLoad open search by Gender  ")
-      
-          //let docRef fro Female Gender
-            _ = service.db.collection("contacts").whereField("gender", isEqualTo:"female").addSnapshotListener { querySnapshot,error in
-              guard let documents = querySnapshot?.documents else{
-                  print ("Error fetching documents \(error!)")
-                  return
-              }
-              self.contacts = documents.compactMap({ queryDocumentSnapshot -> Contact? in
-                  return try? queryDocumentSnapshot.data(as: Contact.self)
-              })
-              for con in self.contacts{
-                  print(con.lastname)
-              }
-              self.contactTableView.reloadData()
-          }
-      }
-        
     }
     
     // MARK: - Table view data source
@@ -141,25 +85,6 @@ class ContactsTableViewController: UITableViewController {
         cell.nameLabel.text = "\( contact.firstname) \(contact.lastname)"
         cell.locationLabel.text = contact.location
         cell.levelLabel.text = contact.level
-        
-//        if contact.photo != "" {
-//            
-//            let url = URL(string: contact.photo)
-//            let task = URLSession.shared.dataTask(with: url! as URL, completionHandler: {(data, response, error) in
-//                
-//                if  error != nil {
-//                    print(error!)
-//                    return
-//                }
-//                DispatchQueue.global(qos: .background).async {
-//                    DispatchQueue.main.async {
-//                        cell.profilePicture?.image = UIImage(data: data!)
-//                    }
-//                }
-//            })
-//            task.resume()
-//            //self.contactTableView.reloadData()
-//        }
         return cell
     }
     
@@ -177,49 +102,24 @@ class ContactsTableViewController: UITableViewController {
         self.present(alert,animated: true)
         
     }
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
     // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
-    
-    
+    //Logout button function
+    @IBAction func logOutBtn(_ sender: Any) {
+        
+        let refreshAlert = UIAlertController(title: "Login Out", message: "Are you sure you want to logout", preferredStyle: UIAlertController.Style.alert)
+        // will close the application
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            exit(0);
+        }))
+        // will not close the application and get back to the app
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+              print("Handle Cancel Logic here")
+        }))
+
+        present(refreshAlert, animated: true, completion: nil)
+    }
        
     // prepare for multiple segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -246,6 +146,9 @@ class ContactsTableViewController: UITableViewController {
        case let favoriteVC as ViewContactTableViewController:
           
            favoriteVC.contact = selectedContact
+           
+       case let profileVC as MyProfileTableViewController:
+           profileVC.myProfileContact = self.profile
     
             default:
                 return
@@ -271,7 +174,6 @@ class ContactsTableViewController: UITableViewController {
             }
         }
     }
-    
 }
     //  extra ContactCell class created
     class ContactCell: UITableViewCell{

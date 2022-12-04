@@ -4,14 +4,13 @@
 //
 //  Created by lionel coevoet on 8/11/2022.
 //
-
 import UIKit
 
 class ViewContactTableViewController: UITableViewController {
     
     var contact :Contact!
     
-    // UI eleement conected to the class
+    // UI element ViewController connected to the class ViewContactController !
     @IBOutlet weak var playerImageView: UIImageView!
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
@@ -22,7 +21,7 @@ class ViewContactTableViewController: UITableViewController {
     @IBOutlet weak var phone: UIButton!
     @IBOutlet weak var favoriteSwitch: UISwitch!
     
-    //When the page is loaded full contact details is loading into screen
+    //When the page is loaded full player details is loaded into the screen
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,17 +37,14 @@ class ViewContactTableViewController: UITableViewController {
     }
 
     // MARK: - Navigation
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
+   
+    //Prepare for segue player data to be sent to contact table VC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                // Get the new view controller using segue.destination.
-               // Pass the selected object to the new view controller.
+               
         if let contactsTableVC = segue.destination as? ContactsTableViewController{
 
             contact.favorite = favoriteSwitch.isOn
             contactsTableVC.selectedContact = contact
-
         }
-        
-        
     }
 }

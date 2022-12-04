@@ -15,7 +15,6 @@ final class StorageManager{
     
     public func uploadImage(with data: Data, fileName: String, completion : @escaping uploadImageCompletion ){
         
-        
         storage.child("photos/\(fileName)").putData(data, metadata: nil, completion: { metadata, error in
             guard error == nil else {
                 print("Failed to upload the image ")
@@ -40,6 +39,5 @@ final class StorageManager{
      public enum StorageError : Error {
             case failedToUpload
             case failedToGetDownloadUrl
-            
         }
 }

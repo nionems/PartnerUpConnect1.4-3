@@ -7,95 +7,78 @@
 
 import UIKit
 
-class SearchTableViewController: UITableViewController {
+class SearchTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     let service = FirestoreRepository()
     var searchFrom : String = ""
-    var levelQuery : String = ""
     var locationQuery : String = ""
-    var genderQuery : String = ""
-
-    
- 
-    @IBOutlet weak var searchbyLevel: UITextField!
-    
+    var pickerLevelData: [String] = [String]()
+    var pickerGenderData: [String] = [String]()
+    var filter : String = ""
     
     @IBOutlet weak var searchByLocation: UITextField!
-
+    @IBOutlet weak var levelPicker: UIPickerView!
+    @IBOutlet weak var genderPicker: UIPickerView!
     
-    @IBOutlet weak var searchByGender: UITextField!
- 
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //initialise the picker
+        self.levelPicker.delegate = self
+        self.levelPicker.dataSource = self
+        
+        self.genderPicker.delegate = self
+        self.genderPicker.dataSource = self
+        
+        pickerLevelData = ["A", "B", "C", "D", "E", "F", "G" ]
+        pickerGenderData = ["Male", "Female"]
     }
     
-    @IBAction func searchByLevelBtn(_ sender: UIButton) {
-        if sender.titleLabel!.text == "Search by level"{
-         searchFrom = "searchByLevel"
-         levelQuery  = searchbyLevel.text!
-            
-            // performSegue(withIdentifier: "Search By Level", sender: self)
-        }
-        else{//do something
-            
-        }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1;
     }
     
-    
-    @IBAction func searchByLocation(_ sender: UIButton) {
-        if sender.titleLabel!.text == "Search by location"{
-            searchFrom = "searchByLocation"
-            locationQuery  = searchByLocation.text!
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        var totalRows : Int = pickerLevelData.count
+        if pickerView == self.genderPicker {
+            totalRows = self.pickerGenderData.count
         }
-        else{//do something
-            
-        }
+        return totalRows
     }
     
-    
-    @IBAction func searchByGender(_ sender: UIButton) {
-        if sender.titleLabel!.text == "Search by gender"{
-            searchFrom = "searchByGender"
-            genderQuery  = searchByGender.text!
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == levelPicker {
+            return pickerLevelData[row]
+        }else if pickerView == genderPicker{
+            return pickerGenderData[row]
         }
-        else{//do something
-            
+        return ""
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == levelPicker {
+            self.filter = pickerLevelData[row]
+        }else if pickerView == genderPicker{
+            self.filter = pickerGenderData[row]
         }
     }
     
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       
-//        if (segue.identifier == "searchByLevel"){
-//            _ = segue.destination as? ContactsTableViewController
-//            print("search by level triggered")
-//
-//           // _ = service.db.collection("contacts").whereField("favorite", isEqualTo: true)
-//
-//
-//        }else if segue.identifier == "searchByLocation"{
-//            _ = segue.destination as? ContactsTableViewController
-//            print("search by location triggered")
-//
-//        }else if segue.identifier == "searchByGender"{
-//            _ = segue.destination as? ContactsTableViewController
-//            print("search by gender triggered")
-//        }
-        if let contactTableVC = segue.destination as? ContactsTableViewController{
-            contactTableVC.searchFrom = self.searchFrom
-            
-        }
-     
-   
         
-  
-      //  if let contactTableVC = segue.destination as? ContactsTableViewController{
-            // do something
-      //  }
+        if let contactTableVC = segue.destination as? ContactsTableViewController{
+            if segue.identifier == "searchByLevelSegue"{
+                contactTableVC.searchFrom = "searchByLevel"
+                contactTableVC.levelQuery = self.filter
+            }else if segue.identifier == "searchByLocaltionSegue"{
+                contactTableVC.searchFrom = "searchByLocation"
+                contactTableVC.locationQuery = searchByLocation.text!
+            }else if segue.identifier == "searchByGenderSegue"{
+                contactTableVC.searchFrom = "searchByGender"
+                contactTableVC.genderQuery = self.filter
+            }
+        }
     }
-     
-    
-
 }

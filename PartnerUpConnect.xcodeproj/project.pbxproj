@@ -27,11 +27,11 @@
 		BF916A79291600960068DF48 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF916A78291600960068DF48 /* LandingPageViewController.swift */; };
 		BF916A7B291600AA0068DF48 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF916A7A291600AA0068DF48 /* LoginViewController.swift */; };
 		BF916A7F2918D1590068DF48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF916A7E2918D1590068DF48 /* GoogleService-Info.plist */; };
-		BFB0E2AA291F352800ABCF81 /* FavoriteViewContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0E2A9291F352800ABCF81 /* FavoriteViewContactTableViewController.swift */; };
 		BFB0E2AC291F372A00ABCF81 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0E2AB291F372A00ABCF81 /* SearchTableViewController.swift */; };
 		BFB0E2AE29221C7A00ABCF81 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0E2AD29221C7A00ABCF81 /* StorageManager.swift */; };
 		BFECFDB02919F5CF0037DAB6 /* ViewContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFECFDAF2919F5CF0037DAB6 /* ViewContactTableViewController.swift */; };
 		BFECFDB8291B50000037DAB6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BFECFDB7291B50000037DAB6 /* FirebaseStorage */; };
+		FAA907F92934A25C002E4AE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAA907F82934A25C002E4AE8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,10 +73,10 @@
 		BF916A78291600960068DF48 /* LandingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		BF916A7A291600AA0068DF48 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BF916A7E2918D1590068DF48 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		BFB0E2A9291F352800ABCF81 /* FavoriteViewContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewContactTableViewController.swift; sourceTree = "<group>"; };
 		BFB0E2AB291F372A00ABCF81 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		BFB0E2AD29221C7A00ABCF81 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		BFECFDAF2919F5CF0037DAB6 /* ViewContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewContactTableViewController.swift; sourceTree = "<group>"; };
+		FAA907F82934A25C002E4AE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +111,7 @@
 		BF520FFC291213A0007F073A = {
 			isa = PBXGroup;
 			children = (
+				FAA907F82934A25C002E4AE8 /* GoogleService-Info.plist */,
 				BF521007291213A0007F073A /* PartnerUpConnect */,
 				BF52101E291213A2007F073A /* PartnerUpConnectTests */,
 				BF521028291213A2007F073A /* PartnerUpConnectUITests */,
@@ -144,7 +145,6 @@
 				BF86B502291B6E1A00558446 /* EditProfileTableViewController.swift */,
 				BF52100E291213A0007F073A /* Main.storyboard */,
 				BFB0E2AD29221C7A00ABCF81 /* StorageManager.swift */,
-				BFB0E2A9291F352800ABCF81 /* FavoriteViewContactTableViewController.swift */,
 				BFB0E2AB291F372A00ABCF81 /* SearchTableViewController.swift */,
 				BF521011291213A2007F073A /* Assets.xcassets */,
 				BF521013291213A2007F073A /* LaunchScreen.storyboard */,
@@ -302,6 +302,7 @@
 			files = (
 				BF521015291213A2007F073A /* LaunchScreen.storyboard in Resources */,
 				BF916A7F2918D1590068DF48 /* GoogleService-Info.plist in Resources */,
+				FAA907F92934A25C002E4AE8 /* GoogleService-Info.plist in Resources */,
 				BF521012291213A2007F073A /* Assets.xcassets in Resources */,
 				BF521010291213A0007F073A /* Main.storyboard in Resources */,
 			);
@@ -334,7 +335,6 @@
 				BFB0E2AE29221C7A00ABCF81 /* StorageManager.swift in Sources */,
 				BF916A79291600960068DF48 /* LandingPageViewController.swift in Sources */,
 				BF521009291213A0007F073A /* AppDelegate.swift in Sources */,
-				BFB0E2AA291F352800ABCF81 /* FavoriteViewContactTableViewController.swift in Sources */,
 				BF86B501291B6D5A00558446 /* MyProfileTableViewController.swift in Sources */,
 				BF916A7B291600AA0068DF48 /* LoginViewController.swift in Sources */,
 				BF86B503291B6E1A00558446 /* EditProfileTableViewController.swift in Sources */,
